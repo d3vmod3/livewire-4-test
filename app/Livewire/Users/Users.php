@@ -5,6 +5,7 @@ namespace App\Livewire\Users;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\User;
+use Livewire\Attributes\Computed;
 
 class Users extends Component
 {
@@ -19,18 +20,16 @@ class Users extends Component
         $this->resetPage();
     }
 
+    public $query = '';
+
+    #[Computed]
+    public function users()
+    {
+        return User::where('name', 'like', '%'.$this->query.'%')->paginate($this->per_page);
+    }
+
     public function render()
     {
-        // Make sure to query User model and paginate
-        $users = User::query()
-            ->when($this->search, function ($query) {
-                $query->where('name', 'like', "%{$this->search}%");
-            })
-            ->latest()
-            ->paginate($this->per_page);
-
-        return view('livewire.users.users', [
-            'users' => $users, // pass the paginated results to Blade
-        ]);
+        return view('livewire.users.users');
     }
 }

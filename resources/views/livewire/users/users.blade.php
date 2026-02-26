@@ -1,5 +1,5 @@
 <div>
-    <input type="text" wire:model="search" placeholder="Search users..." class="mb-4 p-2 border rounded" />
+    <input type="text" wire:model.live="query" placeholder="Search users..." class="mb-4 p-2 border rounded" />
 
     <table class="w-full border-collapse">
         <thead>
@@ -10,7 +10,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($users as $user)
+            @foreach($this->users() as $user)
                 <tr>
                     <td class="border px-4 py-2">{{ $user->name }}</td>
                     <td class="border px-4 py-2">{{ $user->email }}</td>
@@ -23,6 +23,6 @@
     </table>
 
     <div class="mt-4">
-        {{ $users->links() }}
+        {{ $this->users->links() }}
     </div>
 </div>
